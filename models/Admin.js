@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db'); 
 
-const User = sequelize.define('User', {
+const Admin = sequelize.define('Admin', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -29,4 +29,4 @@ const User = sequelize.define('User', {
     timestamps: true // otomatis menambah createdAt dan updatedAt
 });
 
-module.exports = User;
+module.exports = Admin;

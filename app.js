@@ -7,16 +7,17 @@ const errorHandler = require('./middleware/errorHandler');
 const studentRoutes = require('./routes/studentRoutes');
 const teacherRoutes = require('./routes/teacherRoutes');
 const authMiddleware = require('./middleware/auth');
-const userRoutes = require('./routes/userRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
-// middleware
+// Middleware
 app.use(bodyParser.json());
 
 // Mounting authRoutes terlebih dahulu, agar endpoint login terbuka
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Middleware auth hanya untuk routes selain endpoint auth
 app.use(authMiddleware);
@@ -25,16 +26,8 @@ app.use(authMiddleware);
 app.use('/api/news', newsRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/teachers', teacherRoutes); 
-app.use('/api/users', userRoutes);
 
-// Pastikan errorHandler adalah middleware function, misalnya:
-
+// Error handler
 app.use(errorHandler);
 
-sequelize.sync().then(() => {
-    app.listen(3000, () => {
-        console.log('Server is running on port 3000');
-    });
-}).catch(err => {
-    console.error('Unable to connect to the database:', err);
-});
+module.exports = app;

@@ -1,11 +1,15 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db'); // pastikan konfigurasi koneksi PostgreSQL sudah diatur
+const sequelize = require('../config/db');
 
 const Teacher = sequelize.define('Teacher', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        allowNull: false
+    },
+    username: {               // <-- added username field
+        type: DataTypes.STRING,
         allowNull: false
     },
     name: {
@@ -22,10 +26,10 @@ const Teacher = sequelize.define('Teacher', {
     },
     subject: {
         type: DataTypes.STRING,
-        allowNull: true // field opsional untuk mata pelajaran
+        allowNull: true
     }
 }, {
-    timestamps: true // otomatis menambah createdAt dan updatedAt
+    timestamps: true
 });
 
 module.exports = Teacher;

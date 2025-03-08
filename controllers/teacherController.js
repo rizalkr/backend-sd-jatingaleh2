@@ -28,6 +28,7 @@ const createTeacher = async (req, res) => {
     try {
         const newTeacher = await Teacher.create({
             name: req.body.name,
+            username: req.body.username,
             email: req.body.email,
             subject: req.body.subject // Sesuaikan dengan field yang dimiliki model Teacher
         });
