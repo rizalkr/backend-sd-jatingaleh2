@@ -9,11 +9,14 @@ const teacherRoutes = require('./routes/teacherRoutes');
 const authMiddleware = require('./middleware/auth');
 const adminRoutes = require('./routes/adminRoutes');
 const authRoutes = require('./routes/authRoutes');
+const cors = require('cors');
 
 const app = express();
 
 // Middleware
 app.use(bodyParser.json());
+
+app.use(cors());
 
 // Mounting authRoutes terlebih dahulu, agar endpoint login terbuka
 app.use('/api/auth', authRoutes);
