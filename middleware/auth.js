@@ -2,6 +2,11 @@ const jwt = require('jsonwebtoken');
 const Admin = require('../models/Admin');
 
 const authMiddleware = async (req, res, next) => {
+    // Bypass endpoint get
+    if (req.method === 'GET') {
+        return next();
+    }
+
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
