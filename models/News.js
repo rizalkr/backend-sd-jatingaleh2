@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db'); 
+
 const News = sequelize.define('News', {
     id: {
         type: DataTypes.INTEGER,
@@ -23,7 +24,11 @@ const News = sequelize.define('News', {
         type: DataTypes.TEXT,
         allowNull: false
     },
-    // tambahkan field lain jika diperlukan
+    kategori: {
+        type: DataTypes.ENUM('Pengumuman', 'Artikel', 'Prestasi', 'Kegiatan'),
+        allowNull: false,
+        defaultValue: 'Pengumuman'
+    }
 }, {
     timestamps: true // otomatis menambah createdAt dan updatedAt
 });

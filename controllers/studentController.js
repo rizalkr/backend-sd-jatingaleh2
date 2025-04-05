@@ -31,7 +31,8 @@ const createStudent = async (req, res) => {
         const newStudent = await Student.create({
             name: req.body.name,
             age: req.body.age,
-            class: req.body.class  
+            class: req.body.class,
+            spesifiClass: req.body.spesifiClass
         });
         res.status(201).json(newStudent);
     } catch (error) {
@@ -50,6 +51,7 @@ const updateStudent = async (req, res) => {
         student.name  = req.body.name  || student.name;
         student.age   = req.body.age   || student.age;
         student.class = req.body.class || student.class;
+        student.spesifiClass = req.body.spesifiClass || student.spesifiClass;
 
         await student.save();
         res.json(student);

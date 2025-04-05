@@ -8,6 +8,11 @@ const Teacher = sequelize.define('Teacher', {
         autoIncrement: true,
         allowNull: false
     },
+    nuptk:{
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: true,
+    },
     username: {               
         type: DataTypes.STRING,
         allowNull: false

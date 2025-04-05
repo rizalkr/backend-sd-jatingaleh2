@@ -18,9 +18,12 @@ const Student = sequelize.define('Student', {
         unique: false,
         allowNull: false,
     },
-    class:{
-        type: DataTypes.ENUM("1", "2", "3", "4", "5", "6"),
-        allowNull: false
+    class: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            isIn: [['1', '2', '3', '4', '5', '6']]
+        }
     },
     spesifiClass:{
         type: DataTypes.STRING,

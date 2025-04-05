@@ -1,9 +1,22 @@
 const News = require('../models/News'); 
+const { Op } = require('sequelize');
 
 // GET: Ambil semua data berita
 const getAllNews = async (req, res) => {
     try {
-        const news = await News.findAll();
+        const { kategori } = req.query;
+        const whereClause = {};
+        
+        // Filter berdasarkan kategori jika disediakan
+        if (kategori) {
+            whereClause.kategori = kategori;
+        }
+        
+        const news = await News.findAll({
+            where: whereClause,
+            order: [['createdAt', 'DESC']]
+        });
+        
         res.json(news);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -26,12 +39,23 @@ const getNewsById = async (req, res) => {
 // POST: Buat berita baru
 const createNews = async (req, res) => {
     try {
+        const { title, author, image, content, kategori } = req.body;
+        
+        // Validasi kategori
+        if (kategori && !['Pengumuman', 'Artikel', 'Prestasi', 'Kegiatan'].includes(kategori)) {
+            return res.status(400).json({ 
+                message: 'Kategori harus salah satu dari: Pengumuman, Artikel, Prestasi, Kegiatan' 
+            });
+        }
+        
         const newNews = await News.create({
-            title: req.body.title,
-            author: req.body.author,
-            image: req.body.image,
-            content: req.body.content,
+            title,
+            author,
+            image,
+            content,
+            kategori: kategori || 'Pengumuman' // Default ke Pengumuman jika tidak disediakan
         });
+        
         res.status(201).json(newNews);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -46,14 +70,49 @@ const updateNews = async (req, res) => {
             return res.status(404).json({ message: 'Berita tidak ditemukan' });
         }
 
-        news.title = req.body.title || news.title;
-        news.content = req.body.content || news.content;
-        // update field lain jika diperlukan
+        const { title, author, image, content, kategori } = req.body;
+        
+        // Validasi kategori jika disediakan
+        if (kategori && !['Pengumuman', 'Artikel', 'Prestasi', 'Kegiatan'].includes(kategori)) {
+            return res.status(400).json({ 
+                message: 'Kategori harus salah satu dari: Pengumuman, Artikel, Prestasi, Kegiatan' 
+            });
+        }
+
+        // Update field
+        if (title) news.title = title;
+        if (author) news.author = author;
+        if (image) news.image = image;
+        if (content) news.content = content;
+        if (kategori) news.kategori = kategori;
 
         await news.save();
         res.json(news);
     } catch (error) {
         res.status(400).json({ message: error.message });
+    }
+};
+
+// GET: Filter berita berdasarkan kategori
+const getNewsByCategory = async (req, res) => {
+    try {
+        const { kategori } = req.params;
+        
+        // Validasi kategori
+        if (!['Pengumuman', 'Artikel', 'Prestasi', 'Kegiatan'].includes(kategori)) {
+            return res.status(400).json({ 
+                message: 'Kategori harus salah satu dari: Pengumuman, Artikel, Prestasi, Kegiatan' 
+            });
+        }
+        
+        const news = await News.findAll({
+            where: { kategori },
+            order: [['createdAt', 'DESC']]
+        });
+        
+        res.json(news);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };
 
@@ -76,5 +135,6 @@ module.exports = {
     getNewsById,
     createNews,
     updateNews,
-    deleteNews
+    deleteNews,
+    getNewsByCategory
 };

@@ -1,4 +1,4 @@
-const { Aduan } = require('../models');
+const Aduan  = require('../models/Complaint');
 const { Op } = require('sequelize');
 const sequelize = require('../config/db');
 
