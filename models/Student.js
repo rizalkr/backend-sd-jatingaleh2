@@ -19,10 +19,14 @@ const Student = sequelize.define('Student', {
         allowNull: false,
     },
     class:{
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM("1", "2", "3", "4", "5", "6"),
         allowNull: false
-    }
-    // tambahkan field lain jika diperlukan
+    },
+    spesifiClass:{
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    
 }, {
     timestamps: true // otomatis menambah createdAt dan updatedAt
 });

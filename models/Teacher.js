@@ -8,7 +8,7 @@ const Teacher = sequelize.define('Teacher', {
         autoIncrement: true,
         allowNull: false
     },
-    username: {               // <-- added username field
+    username: {               
         type: DataTypes.STRING,
         allowNull: false
     },

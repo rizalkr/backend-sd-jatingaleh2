@@ -1,31 +1,28 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db'); 
-const News = sequelize.define('News', {
+
+const Complaint = sequelize.define('Complaint', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
     },
-    author:{
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    image:{
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    title: {
+    namaPengadu: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    content: {
+    pesanAduan: {
         type: DataTypes.TEXT,
         allowNull: false
     },
-    // tambahkan field lain jika diperlukan
+    status: {
+        type: DataTypes.ENUM('antrian', 'dibaca', 'terselesaikan'),
+        allowNull: false,
+        defaultValue: 'antrian'
+    }
 }, {
     timestamps: true // otomatis menambah createdAt dan updatedAt
 });
 
-module.exports = News;
+module.exports = Complaint;

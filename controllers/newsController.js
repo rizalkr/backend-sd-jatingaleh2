@@ -28,8 +28,9 @@ const createNews = async (req, res) => {
     try {
         const newNews = await News.create({
             title: req.body.title,
+            author: req.body.author,
+            image: req.body.image,
             content: req.body.content,
-            // tambahkan field lain sesuai kebutuhan
         });
         res.status(201).json(newNews);
     } catch (error) {

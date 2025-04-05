@@ -247,6 +247,10 @@ Endpoint ini digunakan untuk melakukan autentikasi admin. Setelah login, server 
   _Deskripsi:_ Ambil data student berdasarkan ID.  
   _Response:_ JSON data student atau 404 jika tidak ditemukan.
 
+- **GET /search?name**
+  _Deskripsi:_ Ambil data student berdasarkan Nama.  
+  _Response:_ JSON data student atau 404 jika tidak ditemukan.
+
 - **POST /**  
   _Deskripsi:_ Buat student baru.  
   _Request Body:_
