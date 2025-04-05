@@ -9,6 +9,7 @@ const teacherRoutes = require('./routes/teacherRoutes');
 const authMiddleware = require('./middleware/auth');
 const adminRoutes = require('./routes/adminRoutes');
 const authRoutes = require('./routes/authRoutes');
+const complaintRoutes = require('./routes/complaintRoutes');
 const cors = require('cors');
 
 const app = express();
@@ -29,7 +30,7 @@ app.use(authMiddleware);
 app.use('/api/news', newsRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/teachers', teacherRoutes); 
-
+app.use('/api/complaints', complaintRoutes);
 // Error handler
 app.use(errorHandler);
 
