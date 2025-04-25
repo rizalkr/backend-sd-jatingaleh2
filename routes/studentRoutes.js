@@ -1,5 +1,6 @@
 const express = require('express');
 const studentController = require('../controllers/studentController');
+const { studentUpload } = require('../utils/fileUpload');
 
 const router = express.Router();
 
@@ -15,11 +16,11 @@ router.get('/:id', studentController.getStudentById);
 // API untuk mendapatkan siswa berdasarkan kelas
 router.get('/filter', studentController.filterStudentsByClass);
 
-// API untuk membuat student baru
-router.post('/', studentController.createStudent);
+// API untuk membuat student baru dengan image upload
+router.post('/', studentUpload.single('image'), studentController.createStudent);
 
-// API untuk memperbarui student berdasarkan ID
-router.put('/:id', studentController.updateStudent);
+// API untuk memperbarui student berdasarkan ID dengan image upload
+router.put('/:id', studentUpload.single('image'), studentController.updateStudent);
 
 // API untuk menghapus student berdasarkan ID
 router.delete('/:id', studentController.deleteStudent);

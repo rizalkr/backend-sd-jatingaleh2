@@ -32,6 +32,10 @@ const Teacher = sequelize.define('Teacher', {
     subject: {
         type: DataTypes.STRING,
         allowNull: true
+    },
+    image:{
+        type: DataTypes.STRING,
+        allowNull: true
     }
 }, {
     timestamps: true

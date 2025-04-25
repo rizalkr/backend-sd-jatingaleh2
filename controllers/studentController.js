@@ -1,5 +1,6 @@
 const { Op } = require('sequelize');
 const Student = require('../models/Student');
+const { removeOldImage } = require('../utils/fileUpload');
 
 // GET: Ambil semua data student
 const getAllStudents = async (req, res) => {
@@ -24,16 +25,22 @@ const getStudentById = async (req, res) => {
     }
 };
 
-
 // POST: Buat student baru
 const createStudent = async (req, res) => {
     try {
-        const newStudent = await Student.create({
+        const studentData = {
             name: req.body.name,
             age: req.body.age,
             class: req.body.class,
             spesifiClass: req.body.spesifiClass
-        });
+        };
+        
+        // Handle image upload
+        if (req.file) {
+            studentData.image = `public/uploads/students/${req.file.filename}`;
+        }
+        
+        const newStudent = await Student.create(studentData);
         res.status(201).json(newStudent);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -48,10 +55,20 @@ const updateStudent = async (req, res) => {
             return res.status(404).json({ message: 'Siswa tidak ditemukan' });
         }
 
-        student.name  = req.body.name  || student.name;
-        student.age   = req.body.age   || student.age;
+        // Update text fields
+        student.name = req.body.name || student.name;
+        student.age = req.body.age || student.age;
         student.class = req.body.class || student.class;
         student.spesifiClass = req.body.spesifiClass || student.spesifiClass;
+        
+        // Update image if new one is uploaded
+        if (req.file) {
+            // Remove old image if exists
+            if (student.image) {
+                removeOldImage(student.image);
+            }
+            student.image = `public/uploads/students/${req.file.filename}`;
+        }
 
         await student.save();
         res.json(student);
@@ -67,10 +84,15 @@ const deleteStudent = async (req, res) => {
         if (!student) {
             return res.status(404).json({ message: 'Siswa tidak ditemukan' });
         }
+        
+        // Remove image file if exists
+        if (student.image) {
+            removeOldImage(student.image);
+        }
+        
         await student.destroy();
         res.json({ message: 'Siswa berhasil dihapus' });
     } catch (error) {
-
         res.status(500).json({ message: error.message });
     }
 };
@@ -94,7 +116,6 @@ const searchStudentsByName = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 
 // Handler untuk memfilter student berdasarkan kelas
 const filterStudentsByClass = async (req, res) => {

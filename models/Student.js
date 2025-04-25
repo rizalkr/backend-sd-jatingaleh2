@@ -23,12 +23,16 @@ const Student = sequelize.define('Student', {
         allowNull: false,
         validate: {
             isIn: [['1', '2', '3', '4', '5', '6']]
-        }
+        },
     },
     spesifiClass:{
         type: DataTypes.STRING,
         allowNull: true
     },
+    image:{
+        type: DataTypes.STRING,
+        allowNull: true
+    }
     
 }, {
     timestamps: true // otomatis menambah createdAt dan updatedAt

@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const sequelize = require('./config/db');
 const newsRoutes = require('./routes/newsRoutes');
 const errorHandler = require('./middleware/errorHandler');
 const studentRoutes = require('./routes/studentRoutes');
@@ -13,6 +12,8 @@ const complaintRoutes = require('./routes/complaintRoutes');
 const cors = require('cors');
 
 const app = express();
+
+app.use(express.static('public'));
 
 // Middleware
 app.use(bodyParser.json());
