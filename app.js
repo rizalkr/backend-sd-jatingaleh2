@@ -10,6 +10,7 @@ const adminRoutes = require('./routes/adminRoutes');
 const authRoutes = require('./routes/authRoutes');
 const complaintRoutes = require('./routes/complaintRoutes');
 const cors = require('cors');
+const galleryRoutes = require('./routes/galleryRoutes');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/api/news', newsRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/teachers', teacherRoutes); 
 app.use('/api/complaints', complaintRoutes);
+app.use('/api/gallery', galleryRoutes);
 // Error handler
 app.use(errorHandler);
 

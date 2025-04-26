@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db'); // pastikan konfigurasi koneksi PostgreSQL sudah diatur
+const sequelize = require('../config/db'); 
 const { all } = require('../routes/newsRoutes');
 
 const Student = sequelize.define('Student', {
@@ -32,10 +32,23 @@ const Student = sequelize.define('Student', {
     image:{
         type: DataTypes.STRING,
         allowNull: true
-    }
+    },
+    nisn : {       
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true
+    },
+    parent : {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    address : {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     
 }, {
-    timestamps: true // otomatis menambah createdAt dan updatedAt
+    timestamps: true
 });
 
 module.exports = Student;
