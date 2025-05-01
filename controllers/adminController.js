@@ -1,5 +1,7 @@
 const Admin = require('../models/Admin');
+const bcrypt = require('bcrypt');
 
+const SALT_ROUND = 10;
 // GET: Ambil semua data admin
 const getAllAdmins = async (req, res) => {
     try {
@@ -26,10 +28,11 @@ const getAdminById = async (req, res) => {
 // POST: Buat admin baru
 const createAdmin = async (req, res) => {
     try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const newAdmin = await Admin.create({
             username: req.body.username,
             email: req.body.email,
-            password: req.body.password
+            password: hashedPassword
         });
         res.status(201).json(newAdmin);
     } catch (error) {
